@@ -1,12 +1,19 @@
 #include "Poly.h"
-#include <cstdlib>
 #include <cmath>
 
 Poly::Poly() { }
 
 Poly::Poly(int x) { coefs[0] = x; }
 
-Poly::~Poly() { }
+void Poly::clear()
+{
+	std::map<int, double, std::greater<int> > tempMap = coefs;
+	for(auto const& it : tempMap)
+	{
+		if(it.second == 0)
+			coefs.erase(it.first);
+	}
+}
 
 double& Poly::operator[](int value)
 {
@@ -44,6 +51,7 @@ Poly operator+(const Poly& p1, const Poly& p2)
 	{
 		p.coefs[it.first] += it.second;
 	}
+	p.clear();
 	return p;
 }
 
@@ -58,6 +66,7 @@ Poly operator-(const Poly& p1, const Poly& p2)
 	{
 		p.coefs[it.first] -= it.second;
 	}
+	p.clear();
 	return p;
 }
 
@@ -71,6 +80,7 @@ Poly operator*(const Poly& p1, const Poly& p2)
 			p.coefs[it1.first + it2.first] += (it1.second * it2.second);
 		}
 	}
+	p.clear();
 	return p;
 }
 
@@ -85,8 +95,6 @@ std::ostream& operator<<(std::ostream& out, const Poly& p)
 				out << " + ";
 			out << it.second;
 		}
-		else if(it.second == 0)
-			continue;
 		else
 		{
 			if(isFirst)

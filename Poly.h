@@ -5,10 +5,11 @@
 class Poly {
 private:
 	std::map<int, double, std::greater<int> > coefs;
+	void clear();
+	
 public:
 	Poly();
 	Poly(int x);
-	~Poly();
 	double& operator[](int key);
 	double operator()(double arg);
 	Poly operator-();
